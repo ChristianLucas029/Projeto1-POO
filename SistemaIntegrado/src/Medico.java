@@ -35,10 +35,10 @@ class Medico {
         for (int i = 0; i < contadorConsultas; i++) {
             Consulta consulta = consultas[i];
             if (consulta != null && consulta.getData().equals(data) && consulta.getHora().equals(hora)) {
-                return false; // Indisponível
+                return false; 
             }
         }
-        return true; // Disponível
+        return true; 
     }
 
     public void removerConsulta(Consulta consulta) {
