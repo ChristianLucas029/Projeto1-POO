@@ -143,19 +143,34 @@ public class GerenciarEvento {
         System.out.println("Evento não encontrado.");
     }
 
+    private static void listarTodosOsEventos() {
+        System.out.println("\nEventos cadastrados:\n");
+        for (int i = 0; i < contadorEventos; i++) {
+            System.out.println("Evento: " + eventos[i].getNome() + " - Local: " + eventos[i].getLocal().getNome() + " - Endereço: " + eventos[i].getLocal().getEndereco());
+        }
+    }
+
+    public static void mostrarEventoMaisFrequentado() {
+        if (contadorEventos == 0) {
+            System.out.println("Nenhum evento registrado.");
+            return;
+        }
+
+        Evento eventoMaisFrequentado = eventos[0];
+        for (int i = 1; i < contadorEventos; i++) {
+            if (eventos[i] != null && eventos[i].getQuantidadeParticipantes() > eventoMaisFrequentado.getQuantidadeParticipantes()) {
+                eventoMaisFrequentado = eventos[i];
+            }
+        }
+        System.out.println("Evento mais frequentado: " + eventoMaisFrequentado.getNome() + " com " + eventoMaisFrequentado.getQuantidadeParticipantes() + " participantes.");
+    }
+
     private static boolean cpfValido(String cpf) {
         if (cpf.length() == 11 && cpf.matches("\\d+")) {
             return true;
         } else {
             System.out.println("CPF inválido. O CPF deve conter exatamente 11 números.");
             return false;
-        }
-    }
-
-    private static void listarTodosOsEventos() {
-        System.out.println("\nEventos cadastrados:\n");
-        for (int i = 0; i < contadorEventos; i++) {
-            System.out.println("Evento: " + eventos[i].getNome() + " - Local: " + eventos[i].getLocal().getNome() + " - Endereço: " + eventos[i].getLocal().getEndereco());
         }
     }
 }

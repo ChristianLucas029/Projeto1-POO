@@ -27,7 +27,7 @@ public class Evento {
 
     public void registrarParticipante(Participante participante) {
         if (verificarLotacao()) {
-            participantes[totalParticipantes++] = participante;
+            participantes[totalParticipantes++] = participante; 
             System.out.println("\nParticipante " + participante.getNome() + " registrado com sucesso!");
         } else {
             System.out.println("\nEvento lotado! Não é possível registrar mais participantes.");
@@ -42,7 +42,7 @@ public class Evento {
                 for (int j = i; j < totalParticipantes - 1; j++) {
                     participantes[j] = participantes[j + 1];
                 }
-                participantes[--totalParticipantes] = null;
+                participantes[--totalParticipantes] = null; 
                 System.out.println("\nParticipante removido com sucesso.");
                 break;
             }
@@ -57,5 +57,9 @@ public class Evento {
         for (int i = 0; i < totalParticipantes; i++) {
             System.out.println(participantes[i].getNome() + " - " + participantes[i].getEmail() + " - CPF: " + participantes[i].getCpf());
         }
+    }
+
+    public int getQuantidadeParticipantes() {
+        return totalParticipantes;
     }
 }

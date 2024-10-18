@@ -1,6 +1,9 @@
 import java.util.Scanner;
 
 public class Restaurante {
+    private static int[] contagemPedidos = new int[10];
+    private static int[] contagemMesas = new int[10];
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         
@@ -53,11 +56,13 @@ public class Restaurante {
                                 System.out.println("Item inválido.");
                             } else {
                                 pedido.adicionarItem(cardapio[numeroItem - 1]);
+                                contagemPedidos[numeroItem - 1]++; 
                                 System.out.print("\nAdicionar outro item? (1-Sim, 2-Não): ");
                                 adicionarMais = scanner.nextInt() == 1;
                             }
                         }
                         mesas[numeroMesa - 1].registrarPedido(pedido);
+                        contagemMesas[numeroMesa - 1]++; 
                         System.out.println("\nPedido registrado com sucesso!");
                     }
                     break;
@@ -116,15 +121,50 @@ public class Restaurante {
                     break;
 
                 case 6:
-                    IntegracaoDosSistemas.main(new String[]{});
+                    IntegracaoDosSistemas.main(new String[] {});
                     break;
 
                 default:
                     System.out.println("Opção inválida.");
-                    break;
+            }
+        }
+        
+        scanner.close();
+    }
+
+    public static void mostrarItemMaisPedido() {
+        int maxPedidos = 0;
+        String itemMaisPedido = "";
+
+        for (int i = 0; i < contagemPedidos.length; i++) {
+            if (contagemPedidos[i] > maxPedidos) {
+                maxPedidos = contagemPedidos[i];
+                itemMaisPedido = "Item" + (i + 1);
             }
         }
 
-        scanner.close();
+        if (maxPedidos > 0) {
+            System.out.println("O item mais pedido foi: " + itemMaisPedido + " com " + maxPedidos + " pedidos.");
+        } else {
+            System.out.println("Nenhum item foi pedido até agora.");
+        }
+    }
+
+    public static void mostrarMesaMaisUtilizada() {
+        int maxMesas = 0;
+        int mesaMaisUtilizada = 0;
+
+        for (int i = 0; i < contagemMesas.length; i++) {
+            if (contagemMesas[i] > maxMesas) {
+                maxMesas = contagemMesas[i];
+                mesaMaisUtilizada = i + 1;
+            }
+        }
+
+        if (maxMesas > 0) {
+            System.out.println("A mesa mais utilizada foi: Mesa " + mesaMaisUtilizada + " com " + maxMesas + " Clientes.");
+        } else {
+            System.out.println("Nenhuma mesa foi utilizada até agora.");
+        }
     }
 }

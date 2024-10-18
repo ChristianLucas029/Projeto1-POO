@@ -6,6 +6,8 @@ public class Clinica {
     private static Consulta[] consultas = new Consulta[100];
     private static int contadorPacientes = 0;
     private static int contadorConsultas = 0;
+    private static int[] solicitacoesMedico = new int[10]; 
+    private static int consultasCanceladas = 0; 
 
     private static boolean validarCpf(String cpf) {
         return cpf.matches("\\d{11}");
@@ -33,6 +35,7 @@ public class Clinica {
 
         if (!senha.equals("123")) {
             System.out.println("Senha incorreta. Acesso negado.");
+            return;
         }
 
         boolean continuar = true;
@@ -127,6 +130,7 @@ public class Clinica {
                                 Consulta novaConsulta = new Consulta(pacienteEncontrado, medicoSelecionado, data, hora);
                                 medicoSelecionado.agendarConsulta(novaConsulta);
                                 consultas[contadorConsultas++] = novaConsulta;
+                                solicitacoesMedico[numeroMedico - 1]++; // Incrementa o contador de solicitações para o médico
                                 System.out.println("\nConsulta agendada com sucesso!");
                             } else {
                                 System.out.println("\nMédico indisponível para essa data e hora.");
@@ -194,6 +198,7 @@ public class Clinica {
                             if (consultaExcluir != null && consultaExcluir.getPaciente().equals(pacienteParaExcluir)) {
                                 consultaExcluir.getMedico().removerConsulta(consultaExcluir);
                                 consultas[numeroConsultaExcluir] = null;
+                                consultasCanceladas++; // Incrementa o contador de consultas canceladas
                                 System.out.println("Consulta excluída com sucesso.");
                             } else {
                                 System.out.println("Consulta não encontrada.");
@@ -214,5 +219,27 @@ public class Clinica {
 
         System.out.println("Sistema encerrado.");
         scanner.close();
+    }
+
+    public static void mostrarMedicoMaisSolicitado() {
+        int maxSolicitacoes = 0;
+        int indiceMedicoMaisSolicitado = -1;
+        for (int i = 0; i < solicitacoesMedico.length; i++) {
+            if (solicitacoesMedico[i] > maxSolicitacoes) {
+                maxSolicitacoes = solicitacoesMedico[i];
+                indiceMedicoMaisSolicitado = i;
+            }
+        }
+
+        if (indiceMedicoMaisSolicitado != -1) {
+            System.out.println("Médico mais solicitado: " + medicos[indiceMedicoMaisSolicitado].getNome() +
+                    " com " + maxSolicitacoes + " solicitações.");
+        } else {
+            System.out.println("Nenhum médico foi solicitado até o momento.");
+        }
+    }
+
+    public static void mostrarConsultasCanceladas() {
+        System.out.println("Total de consultas canceladas: " + consultasCanceladas);
     }
 }
